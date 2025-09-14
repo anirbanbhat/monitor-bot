@@ -9,11 +9,10 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 # --- Configuration ---
-# TELEGRAM_TOKEN = "8447655546:AAGpyZ1NqhJl8gy5Lw2i7c2aOI8BCLC8sOo"  # ⚠️ Paste your token here
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 if not TELEGRAM_TOKEN:
     raise ValueError("No TELEGRAM_TOKEN set for the bot!")
-CHECK_INTERVAL_SECONDS = 300  # Check every 5 minutes
+CHECK_INTERVAL_SECONDS = 60  # Check every 5 minutes
 DATA_FILE = "monitoring_data.json"
 
 # --- Setup Logging ---
