@@ -1,0 +1,24 @@
+# Default values for monitor-bot.
+app:
+  replicaCount: 1
+  image:
+    repository: anirbanbh/monitor-bot # <-- CHANGE THIS
+    pullPolicy: IfNotPresent
+    tag: "latest" # <-- CHANGE THIS to a specific version like "1.0.0"
+
+# -- The Telegram Bot Token. Must be set during installation.
+# -- Example: --set telegramToken=12345:ABCDE...
+telegramToken: ""
+
+# -- Redis sub-chart configuration
+# -- See https://github.com/bitnami/charts/tree/main/bitnami/redis for all options
+redis:
+  enabled: true
+  architecture: standalone # Use a single instance for simplicity
+  auth:
+    enabled: true # Enable password authentication
+  master:
+    persistence:
+      enabled: false # For a lightweight setup, disable persistence
+  replica:
+    replicaCount: 0

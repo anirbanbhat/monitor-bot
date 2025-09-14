@@ -1,0 +1,12 @@
+apiVersion: v2
+name: monitor-bot
+description: A Helm chart for deploying the Telegram website monitoring bot.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: redis
+    version: "18.x.x" # Use a recent stable version
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: redis.enabled # Allows disabling if you have an external Redis

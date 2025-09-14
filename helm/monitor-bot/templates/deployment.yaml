@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app: monitor-bot
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: monitor-bot
+  template:
+    metadata:
+      labels:
+        app: monitor-bot
+    spec:
+      containers:
+        - name: monitor-bot
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          env:
+            - name: TELEGRAM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: telegram-token
+            {{- if .Values.redis.enabled }}
+            - name: REDIS_HOST
+              # The Redis service name is predictable based on the release name
+              value: "{{ .Release.Name }}-redis-master"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  # The Bitnami chart creates a secret with this name
+                  name: "{{ .Release.Name }}-redis"
+                  key: redis-password
+            {{- end }}
